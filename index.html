@@ -1,36 +1,70 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>나의 할 일 목록</title>
-  <link rel="stylesheet" href="style.css" />
+  <!-- Google Fonts & Font Awesome CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="app">
-    <h1>나의 할 일 목록</h1>
+  <!-- 메인 To Do 카드 컨테이너 (최대 너비 500px) -->
+  <main class="todo-card">
+    <!-- 카드 헤더 타이틀 -->
+    <header class="todo-header">
+      <h1>📝 나의 할 일 목록</h1>
+      <p class="subtitle">오늘 해야 할 일을 작성하고 관리해보세요</p>
+    </header>
 
-    <div class="input-area">
-      <input type="text" id="todo-input" placeholder="할 일을 입력하세요" />
-      <button id="add-btn">추가</button>
+    <!-- 할 일 개수 통계 정보 표시 영역 -->
+    <div class="stats-bar" id="stats-bar">
+      <span class="stats-item"><i class="fa-solid fa-list-check"></i> 전체 <strong id="total-count">0</strong>개</span>
+      <span class="stats-divider">|</span>
+      <span class="stats-item completed-stat"><i class="fa-solid fa-circle-check"></i> 완료 <strong id="completed-count">0</strong>개</span>
     </div>
 
-    <div class="filter-area" id="filter-area">
-      <button class="filter-btn active" data-filter="all">전체</button>
-      <button class="filter-btn" data-filter="active">진행중</button>
-      <button class="filter-btn" data-filter="completed">완료</button>
+    <!-- 할 일 입력 영역 -->
+    <div class="input-section">
+      <div class="input-wrapper">
+        <input type="text" id="todo-input" placeholder="할 일을 입력하세요" autocomplete="off">
+        <button id="add-btn" class="add-btn">
+          <i class="fa-solid fa-plus"></i> 추가
+        </button>
+      </div>
     </div>
 
-    <ul class="todo-list" id="todo-list">
-      <!-- 할 일 항목은 비어 있습니다 -->
-    </ul>
-
-    <div class="todo-footer">
-      <div class="todo-summary" id="todo-summary">전체 0개 · 완료 0개</div>
-      <button id="clear-completed-btn">완료된 항목 삭제</button>
+    <!-- 필터 버튼 & 완료 항목 일괄 삭제 영역 -->
+    <div class="controls-bar">
+      <div class="filter-buttons" id="filter-buttons">
+        <button class="filter-btn active" data-filter="all">전체</button>
+        <button class="filter-btn" data-filter="active">진행중</button>
+        <button class="filter-btn" data-filter="completed">완료</button>
+      </div>
+      <button id="clear-completed-btn" class="clear-completed-btn" title="완료된 할 일을 모두 삭제합니다">
+        <i class="fa-regular fa-trash-can"></i> 완료 항목 삭제
+      </button>
     </div>
-  </div>
 
+    <!-- 할 일 목록 영역 -->
+    <section class="todo-list-container">
+      <ul id="todo-list" class="todo-list">
+        <!-- 자바스크립트로 동적 렌더링됨 -->
+      </ul>
+
+      <!-- 목록이 비어있을 때 표시되는 메시지 -->
+      <div class="empty-state" id="empty-state">
+        <i class="fa-regular fa-clipboard empty-icon"></i>
+        <p id="empty-title">등록된 할 일이 없습니다 🎉</p>
+        <span id="empty-desc">새로운 할 일을 추가하고 하루를 시작해보세요!</span>
+      </div>
+    </section>
+  </main>
+
+  <!-- 자바스크립트 연결 -->
   <script src="main.js"></script>
 </body>
 </html>

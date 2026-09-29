@@ -1,176 +1,320 @@
+/* ==========================================================================
+   나의 할 일 목록 (To Do List) - 디자인 시스템 & 스타일시트
+   ========================================================================== */
+
+/* 1. 기본 스타일 초기화 */
 * {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
+/* 2. 화면 배경 및 중앙 정렬 */
 body {
-  margin: 0;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
   min-height: 100vh;
+  background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+  background-attachment: fixed;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  padding: 60px 20px;
-  background: #f4f5f7;
-  font-family: "Segoe UI", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  align-items: center;
+  padding: 24px;
+  color: #2d3748;
 }
 
-.app {
+/* 3. 중앙 정렬 현대적 카드 디자인 (최대 너비 500px) */
+.todo-card {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 24px;
+  padding: 36px 32px;
   width: 100%;
-  max-width: 500px;
-  background: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-  padding: 32px;
+  max-width: 500px; /* 요구사항: 최대 너비 500px */
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
 }
 
-h1 {
+.todo-card:hover {
+  transform: translateY(-2px);
+}
+
+/* 4. 카드 헤더 */
+.todo-header {
+  margin-bottom: 20px;
   text-align: center;
-  font-size: 24px;
-  color: #222;
-  margin: 0 0 24px;
 }
 
-.input-area {
+.todo-header h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1a202c;
+  letter-spacing: -0.5px;
+}
+
+.subtitle {
+  font-size: 0.9rem;
+  color: #718096;
+  margin-top: 4px;
+}
+
+/* 4-1. 할 일 통계 바 (전체 N개 | 완료 M개) */
+.stats-bar {
   display: flex;
-  gap: 8px;
-  margin-bottom: 24px;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: #f7fafc;
+  border: 1px solid #edf2f7;
+  padding: 8px 16px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  font-size: 0.88rem;
+  color: #4a5568;
+}
+
+.stats-item strong {
+  color: #667eea;
+  font-weight: 700;
+}
+
+.stats-item.completed-stat strong {
+  color: #38a169;
+}
+
+.stats-divider {
+  color: #cbd5e0;
+}
+
+/* 5. 입력창 및 추가 버튼 영역 */
+.input-section {
+  margin-bottom: 16px;
+}
+
+.input-wrapper {
+  display: flex;
+  gap: 10px;
+  background: #f7fafc;
+  border: 2px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 6px 6px 6px 16px;
+  transition: all 0.25s ease;
+}
+
+.input-wrapper:focus-within {
+  background: #ffffff;
+  border-color: #667eea;
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
 }
 
 #todo-input {
   flex: 1;
-  padding: 12px 14px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  font-size: 15px;
-  outline: none;
-  transition: border-color 0.2s;
-}
-
-#todo-input:focus {
-  border-color: #6c5ce7;
-}
-
-#add-btn {
-  padding: 12px 18px;
   border: none;
-  border-radius: 10px;
-  background: #6c5ce7;
-  color: #fff;
-  font-size: 15px;
+  background: transparent;
+  outline: none;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: #2d3748;
+}
+
+#todo-input::placeholder {
+  color: #a0aec0;
+}
+
+.add-btn {
+  background: #667eea;
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 20px;
+  font-size: 0.95rem;
   font-weight: 600;
+  font-family: inherit;
   cursor: pointer;
-  transition: background 0.2s;
-}
-
-#add-btn:hover {
-  background: #5a4bd6;
-}
-
-.filter-area {
   display: flex;
-  justify-content: center;
-  gap: 8px;
-  margin-bottom: 16px;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  transition: all 0.2s ease;
+}
+
+.add-btn:hover {
+  background: #5a67d8;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+}
+
+.add-btn:active {
+  transform: translateY(0);
+}
+
+/* 5-1. 필터 버튼 & 완료 항목 일괄 삭제 컨트롤 바 */
+.controls-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.filter-buttons {
+  display: flex;
+  background: #edf2f7;
+  padding: 3px;
+  border-radius: 12px;
+  gap: 2px;
 }
 
 .filter-btn {
-  padding: 6px 14px;
-  border: 1px solid #ddd;
-  border-radius: 20px;
-  background: #fff;
-  color: #666;
-  font-size: 13px;
+  border: none;
+  background: transparent;
+  color: #718096;
+  padding: 6px 12px;
+  border-radius: 9px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  font-family: inherit;
   cursor: pointer;
-  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  transition: all 0.2s ease;
 }
 
 .filter-btn:hover {
-  border-color: #6c5ce7;
+  color: #2d3748;
 }
 
 .filter-btn.active {
-  background: #6c5ce7;
-  border-color: #6c5ce7;
-  color: #fff;
+  background: #ffffff;
+  color: #667eea;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+}
+
+.clear-completed-btn {
+  background: transparent;
+  border: 1px solid #e2e8f0;
+  color: #e53e3e;
+  padding: 6px 12px;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.clear-completed-btn:hover {
+  background: #fff5f5;
+  border-color: #feb2b2;
+}
+
+.clear-completed-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  background: transparent;
+  border-color: #e2e8f0;
+  color: #a0aec0;
+}
+
+/* 6. 할 일 목록 영역 */
+.todo-list-container {
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
 }
 
 .todo-list {
   list-style: none;
-  margin: 0;
-  padding: 0;
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
+/* 할 일 개별 아이템 스타일 */
 .todo-item {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 12px 14px;
-  background: #f9f9fb;
-  border-radius: 10px;
-  border: 1px solid #eee;
+  gap: 12px;
+  background: #ffffff;
+  border: 1px solid #edf2f7;
+  padding: 14px 16px;
+  border-radius: 14px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+  transition: all 0.2s ease;
 }
 
-.todo-item input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
-  margin-right: 10px;
+.todo-item:hover {
+  border-color: #cbd5e0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.todo-checkbox {
+  width: 20px;
+  height: 20px;
+  accent-color: #667eea;
   cursor: pointer;
-  flex-shrink: 0;
 }
 
-.todo-item .todo-text {
+.todo-text {
   flex: 1;
-  font-size: 15px;
-  color: #333;
+  font-size: 0.95rem;
+  color: #2d3748;
+  word-break: break-all;
+  transition: all 0.2s ease;
+}
+
+/* 완료된 항목 스타일: 취소선 표시 및 흐리게 처리 */
+.todo-item.completed {
+  background: #f7fafc;
+  border-color: #e2e8f0;
 }
 
 .todo-item.completed .todo-text {
-  text-decoration: line-through;
-  color: #aaa;
+  text-decoration: line-through; /* 취소선 표시 */
+  color: #a0aec0; /* 흐린 색상 */
 }
 
-.todo-item .delete-btn {
-  border: none;
+/* 삭제 버튼 스타일 */
+.delete-btn {
   background: transparent;
-  color: #ccc;
-  font-size: 16px;
+  border: none;
+  color: #a0aec0;
+  font-size: 1.1rem;
   cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  transition: color 0.2s ease;
 }
 
-.todo-item .delete-btn:hover {
-  color: #e74c3c;
+.delete-btn:hover {
+  color: #e53e3e;
 }
 
-.todo-footer {
-  margin-top: 20px;
+/* 7. 비어있을 때 표시되는 메시지 (Empty State) */
+.empty-state {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-}
-
-.todo-summary {
-  font-size: 13px;
-  color: #888;
-}
-
-#clear-completed-btn {
-  border: none;
-  background: transparent;
-  color: #999;
-  font-size: 13px;
-  cursor: pointer;
-  text-decoration: underline;
-}
-
-#clear-completed-btn:hover {
-  color: #e74c3c;
-}
-
-.empty-message {
+  justify-content: center;
   text-align: center;
-  color: #aaa;
-  font-size: 14px;
-  padding: 20px 0;
+  padding: 36px 20px;
+  color: #a0aec0;
+}
+
+.empty-icon {
+  font-size: 3rem;
+  color: #cbd5e0;
+  margin-bottom: 12px;
+}
+
+.empty-state p {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #718096;
+  margin-bottom: 4px;
+}
+
+.empty-state span {
+  font-size: 0.85rem;
+  color: #a0aec0;
 }
